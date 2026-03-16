@@ -337,7 +337,11 @@ body .ui-dialog {
   font-size: 0.8em;
   border: 1px solid #c5c5c5;
 }
-
+/* .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-collapse {
+  padding: 0px !important;
+  width: 25px;
+  height: 25px;
+} */
 @media (max-width: 600px) {
   .ui-dialog .ui-dialog-title {
     font-size: 1.6em;
