@@ -17,7 +17,7 @@ export function open() {
     title: "Cultures Editor",
     resizable: false,
     close: closeCulturesEditor,
-    position: {my: "right top", at: "right-10 top+10", of: "svg"}
+    position: { my: "right top", at: "right-10 top+10", of: "svg" }
   });
   $body.focus();
 }
@@ -99,7 +99,7 @@ function refreshCulturesEditor() {
 }
 
 function culturesCollectStatistics() {
-  const {cells, cultures, burgs} = pack;
+  const { cells, cultures, burgs } = pack;
   cultures.forEach(c => {
     c.cells = c.area = c.rural = c.urban = 0;
   });
@@ -254,7 +254,7 @@ function culturesEditorAddLines() {
     togglePercentageMode();
   }
   applySorting($culturesHeader);
-  $("#culturesEditor").dialog({width: fitContent()});
+  $("#culturesEditor").dialog({ width: fitContent() });
 }
 
 function getTypeOptions(type) {
@@ -461,7 +461,7 @@ function changePopulation() {
         $(this).dialog("close");
       }
     },
-    position: {my: "center", at: "center", of: "svg"}
+    position: { my: "center", at: "center", of: "svg" }
   });
 }
 
@@ -512,7 +512,7 @@ function removeCulture(cultureId) {
   cults.select("#culture" + cultureId).remove();
   debug.select("#cultureCenter" + cultureId).remove();
 
-  const {burgs, states, cells, cultures} = pack;
+  const { burgs, states, cells, cultures } = pack;
 
   burgs.filter(b => b.culture == cultureId).forEach(b => (b.culture = 0));
   states.forEach(s => {
@@ -537,8 +537,8 @@ function cultureRemovePrompt() {
 
   const cultureId = +this.parentNode.dataset.id;
   confirmationDialog({
-    title: "Remove culture",
-    message: "Are you sure you want to remove the culture? <br>This action cannot be reverted",
+    title: "移除文化",
+    message: "确定要移除该文化吗？<br>此操作无法撤销",
     confirm: "Remove",
     onConfirm: () => removeCulture(cultureId)
   });
@@ -586,7 +586,7 @@ function cultureCenterDrag() {
   const y0 = +tr[1] - d3.event.y;
 
   function handleDrag() {
-    const {x, y} = d3.event;
+    const { x, y } = d3.event;
     this.setAttribute("transform", `translate(${x0 + x},${y0 + y})`);
     const cell = findCell(x, y);
     if (pack.cells.h[cell] < 20) return; // ignore dragging on water
@@ -617,7 +617,7 @@ function togglePercentageMode() {
     const totalPopulation = +byId("culturesFooterPopulation").dataset.population;
 
     $body.querySelectorAll(":scope > div").forEach(function (el) {
-      const {cells, area, population} = el.dataset;
+      const { cells, area, population } = el.dataset;
       el.querySelector(".cultureCells").innerText = rn((+cells / totalCells) * 100) + "%";
       el.querySelector(".cultureArea").innerText = rn((+area / totalArea) * 100) + "%";
       el.querySelector(".culturePopulation").innerText = rn((+population / totalPopulation) * 100) + "%";
@@ -633,14 +633,14 @@ async function showHierarchy() {
   const HeirarchyTree = await import("../hierarchy-tree.js?v=1.88.06");
 
   const getDescription = culture => {
-    const {name, type, rural, urban} = culture;
+    const { name, type, rural, urban } = culture;
 
     const population = rural * populationRate + urban * populationRate * urbanization;
     const populationText = population > 0 ? si(rn(population)) + " people" : "Extinct";
     return `${name} culture. ${type}. ${populationText}`;
   };
 
-  const getShape = ({type}) => {
+  const getShape = ({ type }) => {
     if (type === "Generic") return "circle";
     if (type === "River") return "diamond";
     if (type === "Lake") return "hexagon";
@@ -680,7 +680,7 @@ function enterCultureManualAssignent() {
   culturesEditor.querySelectorAll(".hide").forEach(el => el.classList.add("hidden"));
   culturesFooter.style.display = "none";
   $body.querySelectorAll("div > input, select, span, svg").forEach(e => (e.style.pointerEvents = "none"));
-  $("#culturesEditor").dialog({position: {my: "right top", at: "right-10 top+10", of: "svg"}});
+  $("#culturesEditor").dialog({ position: { my: "right top", at: "right-10 top+10", of: "svg" } });
 
   tip("Click on culture to select, drag the circle to change culture", true);
   viewbox
@@ -782,7 +782,7 @@ function exitCulturesManualAssignment(close) {
   culturesEditor.querySelectorAll(".hide").forEach(el => el.classList.remove("hidden"));
   culturesFooter.style.display = "block";
   $body.querySelectorAll("div > input, select, span, svg").forEach(e => (e.style.pointerEvents = "all"));
-  if (!close) $("#culturesEditor").dialog({position: {my: "right top", at: "right-10 top+10", of: "svg"}});
+  if (!close) $("#culturesEditor").dialog({ position: { my: "right top", at: "right-10 top+10", of: "svg" } });
 
   debug.select("#cultureCenters").style("display", null);
   restoreDefaultEvents();
@@ -831,9 +831,9 @@ function downloadCulturesCsv() {
   const headers = `Id,Name,Color,Cells,Expansionism,Type,Area ${unit},Population,Namesbase,Emblems Shape,Origins`;
   const lines = Array.from($body.querySelectorAll(":scope > div"));
   const data = lines.map($line => {
-    const {id, name, color, cells, expansionism, type, area, population, emblems, base} = $line.dataset;
+    const { id, name, color, cells, expansionism, type, area, population, emblems, base } = $line.dataset;
     const namesbase = nameBases[+base].name;
-    const {origins} = pack.cultures[+id];
+    const { origins } = pack.cultures[+id];
     const originList = origins.filter(origin => origin).map(origin => pack.cultures[origin].name);
     const originText = '"' + originList.join(", ") + '"';
     return [id, name, color, cells, expansionism, type, area, population, namesbase, emblems, originText].join(",");
@@ -866,7 +866,7 @@ async function uploadCulturesData() {
     namesbase: d.Namesbase
   }));
 
-  const {cultures, cells} = pack;
+  const { cultures, cells } = pack;
   const shapes = Object.keys(COA.shields.types)
     .map(type => Object.keys(COA.shields[type]))
     .flat();
@@ -890,7 +890,7 @@ async function uploadCulturesData() {
         culture.i
       );
     } else {
-      current = {i: cultures.length, center: ra(populated), area: 0, cells: 0, origins: [0], rural: 0, urban: 0};
+      current = { i: cultures.length, center: ra(populated), area: 0, cells: 0, origins: [0], rural: 0, urban: 0 };
       cultures.push(current);
     }
 

@@ -25,7 +25,7 @@ function overviewMarkers() {
     resizable: false,
     width: fitContent(),
     close: close,
-    position: {my: "right top", at: "right-10 top+10", of: "svg", collision: "fit"}
+    position: { my: "right top", at: "right-10 top+10", of: "svg", collision: "fit" }
   });
 
   const listeners = [
@@ -41,8 +41,8 @@ function overviewMarkers() {
     listen(markersSearch, "input", addLines)
   ];
 
-  const types = [{type: "empty", icon: "❓"}, ...Markers.getConfig()];
-  types.forEach(({icon, type}) => {
+  const types = [{ type: "empty", icon: "❓" }, ...Markers.getConfig()];
+  types.forEach(({ icon, type }) => {
     const option = document.createElement("button");
     option.textContent = `${icon} ${type}`;
     markerTypeSelectMenu.appendChild(option);
@@ -80,23 +80,20 @@ function overviewMarkers() {
     }
 
     const lines = markers
-      .map(({i, type, icon, pinned, lock}) => {
+      .map(({ i, type, icon, pinned, lock }) => {
         return /* html */ `
           <div class="states" data-i=${i} data-type="${type}">
-            ${
-              icon.startsWith("http") || icon.startsWith("data:image")
-                ? `<img src="${icon}" data-tip="Marker icon" style="width:1.2em; height:1.2em; vertical-align: middle;">`
-                : `<span data-tip="Marker icon" style="width:1.2em">${icon}</span>`
-            }
+            ${icon.startsWith("http") || icon.startsWith("data:image")
+            ? `<img src="${icon}" data-tip="Marker icon" style="width:1.2em; height:1.2em; vertical-align: middle;">`
+            : `<span data-tip="Marker icon" style="width:1.2em">${icon}</span>`
+          }
             <div data-tip="Marker type" style="width:10em">${type}</div>
             <span style="padding-right:.1em" data-tip="Edit marker" class="icon-pencil"></span>
             <span style="padding-right:.1em" data-tip="Focus on marker position" class="icon-dot-circled pointer"></span>
-            <span style="padding-right:.1em" data-tip="Pin marker (display only pinned markers)" class="icon-pin ${
-              pinned ? "" : "inactive"
-            }" pointer"></span>
-            <span style="padding-right:.1em" class="locks pointer ${
-              lock ? "icon-lock" : "icon-lock-open inactive"
-            }" onmouseover="showElementLockTip(event)"></span>
+            <span style="padding-right:.1em" data-tip="Pin marker (display only pinned markers)" class="icon-pin ${pinned ? "" : "inactive"
+          }" pointer"></span>
+            <span style="padding-right:.1em" class="locks pointer ${lock ? "icon-lock" : "icon-lock-open inactive"
+          }" onmouseover="showElementLockTip(event)"></span>
             <span data-tip="Remove marker" class="icon-trash-empty"></span>
           </div>`;
       })
@@ -126,7 +123,7 @@ function overviewMarkers() {
   }
 
   function invertLock() {
-    pack.markers = pack.markers.map(marker => ({...marker, lock: !marker.lock}));
+    pack.markers = pack.markers.map(marker => ({ ...marker, lock: !marker.lock }));
     addLines();
   }
 
@@ -134,7 +131,7 @@ function overviewMarkers() {
     const marker = pack.markers.find(marker => marker.i === i);
     if (!marker) return;
 
-    const {x, y} = marker;
+    const { x, y } = marker;
     zoomTo(x, y, 8, 2000);
     editMarker(i);
   }
@@ -170,8 +167,8 @@ function overviewMarkers() {
 
   function triggerRemove(i) {
     confirmationDialog({
-      title: "Remove marker",
-      message: "Are you sure you want to remove this marker? The action cannot be reverted",
+      title: "删除标记",
+      message: "确定要删除此标记吗？此操作无法撤销",
       confirm: "Remove",
       onConfirm: () => removeMarker(i)
     });
@@ -201,15 +198,15 @@ function overviewMarkers() {
 
   function triggerRemoveAll() {
     confirmationDialog({
-      title: "Remove all markers",
-      message: "Are you sure you want to remove all non-locked markers? The action cannot be reverted",
+      title: "删除所有标记",
+      message: "确定要删除所有非锁定标记吗？此操作无法撤销",
       confirm: "Remove all",
       onConfirm: removeAllMarkers
     });
   }
 
   function removeAllMarkers() {
-    pack.markers = pack.markers.filter(({i, lock}) => {
+    pack.markers = pack.markers.filter(({ i, lock }) => {
       if (lock) return true;
 
       const id = `marker${i}`;
@@ -226,7 +223,7 @@ function overviewMarkers() {
     const quote = s => '"' + s.replaceAll('"', '""') + '"';
 
     const body = pack.markers.map(marker => {
-      const {i, type, icon, x, y} = marker;
+      const { i, type, icon, x, y } = marker;
 
       const note = notes.find(note => note.id === "marker" + i);
       const name = note ? quote(note.name) : "Unknown";

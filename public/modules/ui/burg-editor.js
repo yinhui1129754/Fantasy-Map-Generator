@@ -15,7 +15,7 @@ function editBurg(id) {
     title: "Edit Burg",
     resizable: false,
     close: closeBurgEditor,
-    position: {my: "left top", at: "left+10 top+10", of: "svg", collision: "fit"}
+    position: { my: "left top", at: "left+10 top+10", of: "svg", collision: "fit" }
   });
 
   if (modules.editBurg) return;
@@ -51,7 +51,7 @@ function editBurg(id) {
 
   function updateGroupsList() {
     byId("burgGroup").options.length = 0; // remove all options
-    for (const {name} of options.burgs.groups) {
+    for (const { name } of options.burgs.groups) {
       byId("burgGroup").options.add(new Option(name, name));
     }
   }
@@ -199,7 +199,7 @@ function editBurg(id) {
   }
 
   function toggleCapital(burgId) {
-    const {burgs, states} = pack;
+    const { burgs, states } = pack;
 
     if (burgs[burgId].capital)
       return tip("To change capital please assign a capital status to another burg of this state", false, "error");
@@ -299,7 +299,7 @@ function editBurg(id) {
 
     prompt(
       "Provide custom URL to the burg map. It can be a link to a generator or just an image. Leave empty to use the default map preview",
-      {default: Burgs.getPreview(burg).link, required: false},
+      { default: Burgs.getPreview(burg).link, required: false },
       link => {
         if (link) burg.link = link;
         else delete burg.link;
@@ -413,8 +413,8 @@ function editBurg(id) {
       });
     } else {
       confirmationDialog({
-        title: "Remove burg",
-        message: "Are you sure you want to remove the burg? <br>This action cannot be reverted",
+        title: "删除城镇",
+        message: "您确定要删除这个城镇吗？<br>此操作无法撤销",
         confirm: "Remove",
         onConfirm: () => {
           Burgs.remove(burgId);

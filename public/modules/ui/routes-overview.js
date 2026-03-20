@@ -159,8 +159,8 @@ function overviewRoutes() {
   function triggerRouteRemove() {
     const routeId = +this.parentNode.dataset.id;
     confirmationDialog({
-      title: "Remove route",
-      message: "Are you sure you want to remove the route? <br>This action cannot be reverted",
+      title: "删除路线",
+      message: "确定要删除该路线吗？<br>此操作无法撤销",
       confirm: "Remove",
       onConfirm: () => {
         const route = pack.routes.find(r => r.i === routeId);

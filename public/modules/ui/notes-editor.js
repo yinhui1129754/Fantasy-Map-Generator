@@ -136,8 +136,8 @@ function editNotes(id, name) {
     if (element) return highlightElement(element, 3);
 
     confirmationDialog({
-      title: "Element not found",
-      message: "Note element is not found. Would you like to remove the note?",
+      title: "元素未找到",
+      message: "笔记元素未找到。是否删除该笔记？",
       confirm: "Remove",
       cancel: "Keep",
       onConfirm: removeLegend
@@ -190,8 +190,8 @@ function editNotes(id, name) {
     }
 
     confirmationDialog({
-      title: "Remove note",
-      message: "Are you sure you want to remove the selected note? There is no way to undo this action",
+      title: "删除笔记",
+      message: "确定要删除选中笔记吗？此操作无法撤销",
       confirm: "Remove",
       onConfirm: removeLegend
     });

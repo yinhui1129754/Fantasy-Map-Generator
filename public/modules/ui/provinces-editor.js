@@ -19,7 +19,7 @@ function editProvinces() {
     resizable: false,
     width: fitContent(),
     close: closeProvincesEditor,
-    position: {my: "right top", at: "right-10 top+10", of: "svg", collision: "fit"}
+    position: { my: "right top", at: "right-10 top+10", of: "svg", collision: "fit" }
   });
 
   // add listeners
@@ -51,7 +51,7 @@ function editProvinces() {
     else if (cl.contains("coaIcon")) editEmblem("province", "provinceCOA" + p, pack.provinces[p]);
     else if (cl.contains("icon-star-empty")) capitalZoomIn(p);
     else if (cl.contains("icon-flag-empty")) triggerIndependencePromps(p);
-    else if (cl.contains("icon-dot-circled")) overviewBurgs({stateId});
+    else if (cl.contains("icon-dot-circled")) overviewBurgs({ stateId });
     else if (cl.contains("culturePopulation")) changePopulation(p);
     else if (cl.contains("icon-pin")) toggleFog(p, cl);
     else if (cl.contains("icon-trash-empty")) removeProvince(p);
@@ -73,7 +73,7 @@ function editProvinces() {
   }
 
   function collectStatistics() {
-    const {cells, provinces, burgs} = pack;
+    const { cells, provinces, burgs } = pack;
 
     provinces.forEach(p => {
       if (!p.i || p.removed) return;
@@ -152,14 +152,11 @@ function editProvinces() {
       >
         <fill-box fill="${p.color}"></fill-box>
         <input data-tip="Province name. Click to change" class="name pointer" value="${p.name}" readonly />
-        <svg data-tip="Click to show and edit province emblem" class="coaIcon pointer hide" viewBox="0 0 200 200"><use href="#provinceCOA${
-          p.i
+        <svg data-tip="Click to show and edit province emblem" class="coaIcon pointer hide" viewBox="0 0 200 200"><use href="#provinceCOA${p.i
         }"></use></svg>
-        <input data-tip="Province form name. Click to change" class="name pointer hide" value="${
-          p.formName
+        <input data-tip="Province form name. Click to change" class="name pointer hide" value="${p.formName
         }" readonly />
-        <span data-tip="Province capital. Click to zoom into view" class="icon-star-empty pointer hide ${
-          p.burg ? "" : "placeholder"
+        <span data-tip="Province capital. Click to zoom into view" class="icon-star-empty pointer hide ${p.burg ? "" : "placeholder"
         }"></span>
         <select
           data-tip="Province capital. Click to select from burgs within the state. No capital means the province is governed from the state capital"
@@ -204,7 +201,7 @@ function editProvinces() {
       togglePercentageMode();
     }
     applySorting(provincesHeader);
-    $("#provincesEditor").dialog({width: fitContent()});
+    $("#provincesEditor").dialog({ width: fitContent() });
   }
 
   function getCapitalOptions(burgs, capital) {
@@ -269,8 +266,8 @@ function editProvinces() {
 
   function triggerIndependencePromps(p) {
     confirmationDialog({
-      title: "Declare independence",
-      message: "Are you sure you want to declare province independence? <br>It will turn province into a new state",
+      title: "声明独立性",
+      message: "确定要声明该省份的独立性吗？<br>这将使该省份变成一个新的国家",
       confirm: "Declare",
       onConfirm: () => {
         const [oldStateId, newStateId] = declareProvinceIndependence(p);
@@ -280,9 +277,9 @@ function editProvinces() {
   }
 
   function declareProvinceIndependence(provinceId) {
-    const {states, provinces, cells, burgs} = pack;
+    const { states, provinces, cells, burgs } = pack;
     const province = provinces[provinceId];
-    const {name, burg: burgId, burgs: provinceBurgs} = province;
+    const { name, burg: burgId, burgs: provinceBurgs } = province;
 
     if (provinceBurgs.some(b => burgs[b].capital))
       return tip(
@@ -304,7 +301,7 @@ function editProvinces() {
     province.burgs.forEach(b => (burgs[b].state = newStateId));
 
     // define new state attributes
-    const {cell: center, culture} = burgs[burgId];
+    const { cell: center, culture } = burgs[burgId];
     const color = getRandomColor();
     const coa = province.coa;
     const coaEl = byId("provinceCOA" + provinceId);
@@ -360,7 +357,7 @@ function editProvinces() {
 
     // remove old province
     states[oldStateId].provinces = states[oldStateId].provinces.filter(p => p !== provinceId);
-    provinces[provinceId] = {i: provinceId, removed: true};
+    provinces[provinceId] = { i: provinceId, removed: true };
 
     return [oldStateId, newStateId];
   }
@@ -381,7 +378,7 @@ function editProvinces() {
     // redraw emblems
     allStates.forEach(stateId => {
       emblems.select(`#stateEmblems > use[data-i='${stateId}']`)?.remove();
-      const {coa, pole} = pack.states[stateId];
+      const { coa, pole } = pack.states[stateId];
       COArenderer.add("state", stateId, coa, ...pole);
     });
 
@@ -407,12 +404,11 @@ function editProvinces() {
     const l = n => Number(n).toLocaleString();
 
     alertMessage.innerHTML = /* html */ ` Rural: <input type="number" min="0" step="1" id="ruralPop" value=${rural} style="width:6em" /> Urban:
-      <input type="number" min="0" step="1" id="urbanPop" value=${urban} style="width:6em" ${
-      p.burgs.length ? "" : "disabled"
-    } />
+      <input type="number" min="0" step="1" id="urbanPop" value=${urban} style="width:6em" ${p.burgs.length ? "" : "disabled"
+      } />
       <p>Total population: ${l(total)} ⇒ <span id="totalPop">${l(
-      total
-    )}</span> (<span id="totalPopPerc">100</span>%)</p>`;
+        total
+      )}</span> (<span id="totalPopPerc">100</span>%)</p>`;
 
     const update = function () {
       const totalNew = ruralPop.valueAsNumber + urbanPop.valueAsNumber;
@@ -437,7 +433,7 @@ function editProvinces() {
           $(this).dialog("close");
         }
       },
-      position: {my: "center", at: "center", of: "svg"}
+      position: { my: "center", at: "center", of: "svg" }
     });
 
     function applyPopulationChange() {
@@ -493,7 +489,7 @@ function editProvinces() {
           if (byId(coaId)) byId(coaId).remove();
           emblems.select(`#provinceEmblems > use[data-i='${p}']`).remove();
 
-          pack.provinces[p] = {i: p, removed: true};
+          pack.provinces[p] = { i: p, removed: true };
 
           const g = provs.select("#provincesBody");
           g.select("#province" + p).remove();
@@ -531,7 +527,7 @@ function editProvinces() {
           $(this).dialog("close");
         }
       },
-      position: {my: "center", at: "center", of: "svg"}
+      position: { my: "center", at: "center", of: "svg" }
     });
 
     if (modules.editProvinceName) return;
@@ -599,7 +595,7 @@ function editProvinces() {
       const totalPopulation = +provincesFooterPopulation.dataset.population;
 
       body.querySelectorAll(":scope > div").forEach(function (el) {
-        const {cells, burgs, area, population} = el.dataset;
+        const { cells, burgs, area, population } = el.dataset;
         el.querySelector(".provinceBurgs").innerText = rn((+burgs / totalBurgs) * 100) + "%";
         el.querySelector(".biomeArea").innerHTML = rn((+area / totalArea) * 100) + "%";
         el.querySelector(".culturePopulation").innerHTML = rn((+population / totalPopulation) * 100) + "%";
@@ -613,7 +609,7 @@ function editProvinces() {
   function showChart() {
     // build hierarchy tree
     const getColor = s => (!s.i || s.removed || s.color[0] !== "#" ? "#666" : d3.color(s.color).darker());
-    const states = pack.states.map(s => ({id: s.i, state: s.i ? 0 : null, color: getColor(s)}));
+    const states = pack.states.map(s => ({ id: s.i, state: s.i ? 0 : null, color: getColor(s) }));
     const provinces = pack.provinces
       .filter(p => p.i && !p.removed)
       .map(p => {
@@ -637,7 +633,7 @@ function editProvinces() {
 
     const width = 300 + 300 * uiSize.value,
       height = 90 + 90 * uiSize.value;
-    const margin = {top: 10, right: 10, bottom: 0, left: 10};
+    const margin = { top: 10, right: 10, bottom: 0, left: 10 };
     const w = width - margin.left - margin.right;
     const h = height - margin.top - margin.bottom;
     const treeLayout = d3.treemap().size([w, h]).padding(2);
@@ -684,10 +680,10 @@ function editProvinces() {
         provincesTreeType.value === "area"
           ? "Area: " + area
           : provincesTreeType.value === "rural"
-          ? "Rural population: " + si(rural)
-          : provincesTreeType.value === "urban"
-          ? "Urban population: " + si(urban)
-          : "Population: " + si(rural + urban);
+            ? "Rural population: " + si(rural)
+            : provincesTreeType.value === "urban"
+              ? "Urban population: " + si(urban)
+              : "Population: " + si(rural + urban);
 
       provinceInfo.innerHTML = /* html */ `${name}. ${state}. ${value}`;
       provinceHighlightOn(ev);
@@ -740,10 +736,10 @@ function editProvinces() {
         this.value === "area"
           ? d => d.area
           : this.value === "rural"
-          ? d => d.rural
-          : this.value === "urban"
-          ? d => d.urban
-          : d => d.rural + d.urban;
+            ? d => d.rural
+            : this.value === "urban"
+              ? d => d.urban
+              : d => d.rural + d.urban;
 
       root.sum(value);
       node.data(treeLayout(root).leaves());
@@ -770,7 +766,7 @@ function editProvinces() {
     $("#alert").dialog({
       title: "Provinces chart",
       width: fitContent(),
-      position: {my: "left bottom", at: "left+10 bottom-10", of: "svg"},
+      position: { my: "left bottom", at: "left+10 bottom-10", of: "svg" },
       buttons: {},
       close: () => {
         alertMessage.innerHTML = "";
@@ -789,10 +785,10 @@ function editProvinces() {
 
   function triggerProvincesRelease() {
     confirmationDialog({
-      title: "Release provinces",
-      message: `Are you sure you want to release all provinces?
-          </br>It will turn all separable provinces into independent states.
-          </br>Capital province and provinces without any burgs will state as they are`,
+      title: "释放省份",
+      message: `确定要释放所有省份吗？
+          </br>这将使所有可分离的省份变为独立国家。
+          </br>首都省份和没有城镇的省份将保持原状`,
       confirm: "Release",
       onConfirm: () => {
         const oldStateIds = [];
@@ -840,7 +836,7 @@ function editProvinces() {
     provincesHeader.querySelector("div[data-sortby='state']").style.left = "7.7em";
     provincesFooter.style.display = "none";
     body.querySelectorAll("div > input, select, span, svg").forEach(e => (e.style.pointerEvents = "none"));
-    $("#provincesEditor").dialog({position: {my: "right top", at: "right-10 top+10", of: "svg", collision: "fit"}});
+    $("#provincesEditor").dialog({ position: { my: "right top", at: "right-10 top+10", of: "svg", collision: "fit" } });
 
     tip("Click on a province to select, drag the circle to change province", true);
     viewbox
@@ -985,7 +981,7 @@ function editProvinces() {
     provincesFooter.style.display = "block";
     body.querySelectorAll("div > input, select, span, svg").forEach(e => (e.style.pointerEvents = "all"));
     if (!close)
-      $("#provincesEditor").dialog({position: {my: "right top", at: "right-10 top+10", of: "svg", collision: "fit"}});
+      $("#provincesEditor").dialog({ position: { my: "right top", at: "right-10 top+10", of: "svg", collision: "fit" } });
 
     restoreDefaultEvents();
     clearMainTip();
@@ -1004,7 +1000,7 @@ function editProvinces() {
   }
 
   function addProvince() {
-    const {cells, provinces} = pack;
+    const { cells, provinces } = pack;
     const point = d3.mouse(this);
     const center = findCell(point[0], point[1]);
     if (cells.h[center] < 20)
@@ -1043,7 +1039,7 @@ function editProvinces() {
     coa.shield = COA.getShield(c, state);
     COArenderer.add("province", province, coa, point[0], point[1]);
 
-    provinces.push({i: province, state, center, burg, name, formName, fullName, color, coa});
+    provinces.push({ i: province, state, center, burg, name, formName, fullName, color, coa });
 
     cells.province[center] = province;
     cells.c[center].forEach(c => {

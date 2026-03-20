@@ -70,9 +70,9 @@ function editRouteGroups() {
 
   function removeGroup(group) {
     confirmationDialog({
-      title: "Remove route group",
+      title: "删除路线组",
       message:
-        "Are you sure you want to remove the entire route group? All routes in this group will be removed.<br>This action can't be reverted",
+        "确定要删除整个路线组吗？该组中的所有路线将被删除。<br>此操作无法撤销",
       confirm: "Remove",
       onConfirm: () => {
         pack.routes.filter(r => r.group === group).forEach(Routes.remove);

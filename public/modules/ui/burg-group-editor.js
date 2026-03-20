@@ -7,13 +7,13 @@ function editBurgGroups() {
   $("#burgGroupsEditor").dialog({
     title: "Configure Burg groups",
     resizable: false,
-    position: {my: "center", at: "center", of: "svg"},
+    position: { my: "center", at: "center", of: "svg" },
     buttons: {
       Apply: () => {
         byId("burgGroupsForm").requestSubmit();
       },
       Add: () => {
-        byId("burgGroupsBody").insertAdjacentHTML("beforeend", createLine({name: "", active: true, preview: null}));
+        byId("burgGroupsBody").insertAdjacentHTML("beforeend", createLine({ name: "", active: true, preview: null }));
       },
       Restore: () => {
         options.burgs.groups = Burgs.getDefaultGroups();
@@ -38,7 +38,7 @@ function editBurgGroups() {
     if (el.name === "biomes") {
       const biomes = Array(biomesData.i.length)
         .fill(null)
-        .map((_, i) => ({i, name: biomesData.name[i], color: biomesData.color[i]}));
+        .map((_, i) => ({ i, name: biomesData.name[i], color: biomesData.color[i] }));
       return selectLimitation(el, biomes);
     }
     if (el.name === "states") return selectLimitation(el, pack.states);
@@ -107,15 +107,14 @@ function editBurgGroups() {
 
     const filtered = data.filter(datum => datum.i && !datum.removed);
     const lines = filtered.map(
-      ({i, name, fullName, color}) => /* html */ `
+      ({ i, name, fullName, color }) => /* html */ `
         <tr data-tip="${name}">
           <td>
             <span style="color:${color}">⬤</span>
           </td>
           <td>
-            <input data-i="${i}" id="el${i}" type="checkbox" class="checkbox" ${
-        !initial.length || initial.includes(i) ? "checked" : ""
-      } >
+            <input data-i="${i}" id="el${i}" type="checkbox" class="checkbox" ${!initial.length || initial.includes(i) ? "checked" : ""
+        } >
             <label for="el${i}" class="checkbox-label">${fullName || name}</label>
           </td>
         </tr>`
@@ -161,18 +160,18 @@ function editBurgGroups() {
     const initial = value ? JSON.parse(value) : {};
 
     const features = [
-      {name: "capital", icon: "icon-star"},
-      {name: "port", icon: "icon-anchor"},
-      {name: "citadel", icon: "icon-chess-rook"},
-      {name: "walls", icon: "icon-fort-awesome"},
-      {name: "plaza", icon: "icon-store"},
-      {name: "temple", icon: "icon-chess-bishop"},
-      {name: "shanty", icon: "icon-campground"}
+      { name: "capital", icon: "icon-star" },
+      { name: "port", icon: "icon-anchor" },
+      { name: "citadel", icon: "icon-chess-rook" },
+      { name: "walls", icon: "icon-fort-awesome" },
+      { name: "plaza", icon: "icon-store" },
+      { name: "temple", icon: "icon-chess-bishop" },
+      { name: "shanty", icon: "icon-campground" }
     ];
 
     const lines = features.map(
       // prettier-ignore
-      ({name, icon}) => /* html */ `
+      ({ name, icon }) => /* html */ `
         <tr data-tip="Select limitation for burg feature: ${name}">
           <td>
             <span class="${icon}"></span>
@@ -211,7 +210,7 @@ function editBurgGroups() {
       buttons: {
         Apply: function () {
           const form = byId("featuresLimitationForm");
-          const values = features.reduce((acc, {name}) => {
+          const values = features.reduce((acc, { name }) => {
             const value = form[name].value;
             if (value !== "undefined") acc[name] = value === "true";
             return acc;
@@ -234,9 +233,8 @@ function editBurgGroups() {
     if (lines.length < 2) return tip("At least one group should be defined", false, "error");
 
     confirmationDialog({
-      title: "Remove group",
-      message:
-        "Are you sure you want to remove the group? <br>This WON'T change the burgs unless the changes are applied",
+      title: "删除组",
+      message: "您确定要删除该组吗？<br>除非应用更改，否则这不会更改城镇",
       confirm: "Remove",
       onConfirm: () => {
         line.remove();

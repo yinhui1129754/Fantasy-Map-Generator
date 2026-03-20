@@ -16,7 +16,7 @@ export function open() {
     title: "Religions Editor",
     resizable: false,
     close: closeReligionsEditor,
-    position: {my: "right top", at: "right-10 top+10", of: "svg"}
+    position: { my: "right top", at: "right-10 top+10", of: "svg" }
   });
   $body.focus();
 }
@@ -109,7 +109,7 @@ function refreshReligionsEditor() {
 }
 
 function religionsCollectStatistics() {
-  const {cells, religions, burgs} = pack;
+  const { cells, religions, burgs } = pack;
   religions.forEach(r => {
     r.cells = r.area = r.rural = r.urban = 0;
   });
@@ -253,7 +253,7 @@ function religionsEditorAddLines() {
   }
 
   applySorting(religionsHeader);
-  $("#religionsEditor").dialog({width: fitContent()});
+  $("#religionsEditor").dialog({ width: fitContent() });
 }
 
 function getTypeOptions(type) {
@@ -436,7 +436,7 @@ function changePopulation() {
         $(this).dialog("close");
       }
     },
-    position: {my: "center", at: "center", of: "svg"}
+    position: { my: "center", at: "center", of: "svg" }
   });
 
   function applyPopulationChange() {
@@ -486,8 +486,8 @@ function religionRemovePrompt() {
 
   const religionId = +this.parentNode.dataset.id;
   confirmationDialog({
-    title: "Remove religion",
-    message: "Are you sure you want to remove the religion? <br>This action cannot be reverted",
+    title: "删除宗教",
+    message: "您确定要删除该宗教吗？<br>此操作无法撤销",
     confirm: "Remove",
     onConfirm: () => removeReligion(religionId)
   });
@@ -555,7 +555,7 @@ function religionCenterDrag() {
   const y0 = +tr[1] - d3.event.y;
 
   function handleDrag() {
-    const {x, y} = d3.event;
+    const { x, y } = d3.event;
     this.setAttribute("transform", `translate(${x0 + x},${y0 + y})`);
     const cell = findCell(x, y);
     if (pack.cells.h[cell] < 20) return; // ignore dragging on water
@@ -585,7 +585,7 @@ function togglePercentageMode() {
     const totalPopulation = +byId("religionsFooterPopulation").dataset.population;
 
     $body.querySelectorAll(":scope > div").forEach($el => {
-      const {area, population} = $el.dataset;
+      const { area, population } = $el.dataset;
       $el.querySelector(".religionArea").innerText = rn((+area / totalArea) * 100) + "%";
       $el.querySelector(".religionPopulation").innerText = rn((+population / totalPopulation) * 100) + "%";
     });
@@ -600,7 +600,7 @@ async function showHierarchy() {
   const HeirarchyTree = await import("../hierarchy-tree.js?v=1.88.06");
 
   const getDescription = religion => {
-    const {name, type, form, rural, urban} = religion;
+    const { name, type, form, rural, urban } = religion;
 
     const getTypeText = () => {
       if (name.includes(type)) return "";
@@ -616,7 +616,7 @@ async function showHierarchy() {
     return `${name}${getTypeText()}${formText}. ${populationText}`;
   };
 
-  const getShape = ({type}) => {
+  const getShape = ({ type }) => {
     if (type === "Folk") return "circle";
     if (type === "Organized") return "square";
     if (type === "Cult") return "hexagon";
@@ -650,7 +650,7 @@ function enterReligionsManualAssignent() {
   religionsEditor.querySelectorAll(".hide").forEach(el => el.classList.add("hidden"));
   religionsFooter.style.display = "none";
   $body.querySelectorAll("div > input, select, span, svg").forEach(e => (e.style.pointerEvents = "none"));
-  $("#religionsEditor").dialog({position: {my: "right top", at: "right-10 top+10", of: "svg"}});
+  $("#religionsEditor").dialog({ position: { my: "right top", at: "right-10 top+10", of: "svg" } });
 
   tip("Click on religion to select, drag the circle to change religion", true);
   viewbox
@@ -753,7 +753,7 @@ function exitReligionsManualAssignment(close) {
     .forEach(el => el.classList.remove("hidden"));
   byId("religionsFooter").style.display = "block";
   $body.querySelectorAll("div > input, select, span, svg").forEach(e => (e.style.pointerEvents = "all"));
-  if (!close) $("#religionsEditor").dialog({position: {my: "right top", at: "right-10 top+10", of: "svg"}});
+  if (!close) $("#religionsEditor").dialog({ position: { my: "right top", at: "right-10 top+10", of: "svg" } });
 
   debug.select("#religionCenters").style("display", null);
   restoreDefaultEvents();
@@ -802,9 +802,9 @@ function downloadReligionsCsv() {
   const headers = `Id,Name,Color,Type,Form,Supreme Deity,Area ${unit},Believers,Origins,Potential,Expansionism`;
   const lines = Array.from($body.querySelectorAll(":scope > div"));
   const data = lines.map($line => {
-    const {id, name, color, type, form, deity, area, population, expansion, expansionism} = $line.dataset;
+    const { id, name, color, type, form, deity, area, population, expansion, expansionism } = $line.dataset;
     const deityText = '"' + deity + '"';
-    const {origins} = pack.religions[+id];
+    const { origins } = pack.religions[+id];
     const originList = (origins || []).filter(origin => origin).map(origin => pack.religions[origin].name);
     const originText = '"' + originList.join(", ") + '"';
     return [id, name, color, type, form, deityText, area, population, originText, expansion, expansionism].join(",");

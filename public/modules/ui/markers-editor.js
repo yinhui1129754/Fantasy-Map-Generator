@@ -32,7 +32,7 @@ function editMarker(markerI) {
   $("#markerEditor").dialog({
     title: "Edit Marker",
     resizable: false,
-    position: {my: "left top", at: "left+10 top+10", of: "svg", collision: "fit"},
+    position: { my: "left top", at: "left+10 top+10", of: "svg", collision: "fit" },
     close: closeMarkerEditor
   });
 
@@ -55,19 +55,19 @@ function editMarker(markerI) {
   function getElement(markerI, event) {
     if (event) {
       const element = event.target?.closest("svg");
-      const marker = pack.markers.find(({i}) => Number(element.id.slice(6)) === i);
+      const marker = pack.markers.find(({ i }) => Number(element.id.slice(6)) === i);
       return [element, marker];
     }
 
     const element = byId(`marker${markerI}`);
-    const marker = pack.markers.find(({i}) => i === markerI);
+    const marker = pack.markers.find(({ i }) => i === markerI);
     return [element, marker];
   }
 
   function getSameTypeMarkers() {
     const currentType = marker.type;
     if (!currentType) return [marker];
-    return pack.markers.filter(({type}) => type === currentType);
+    return pack.markers.filter(({ type }) => type === currentType);
   }
 
   function dragMarker() {
@@ -75,13 +75,13 @@ function editMarker(markerI) {
     const dy = +this.getAttribute("y") - d3.event.y;
 
     d3.event.on("drag", function () {
-      const {x, y} = d3.event;
+      const { x, y } = d3.event;
       this.setAttribute("x", dx + x);
       this.setAttribute("y", dy + y);
     });
 
     d3.event.on("end", function () {
-      const {x, y} = d3.event;
+      const { x, y } = d3.event;
       this.setAttribute("x", rn(dx + x, 2));
       this.setAttribute("y", rn(dy + y, 2));
 
@@ -157,7 +157,7 @@ function editMarker(markerI) {
 
     getSameTypeMarkers().forEach(marker => {
       marker.size = size;
-      const {i, x, y, hidden} = marker;
+      const { i, x, y, hidden } = marker;
       const el = !hidden && byId(`marker${i}`);
       if (!el) return;
 
@@ -193,7 +193,7 @@ function editMarker(markerI) {
     });
   }
 
-  function redrawIcon({i, hidden, icon, dx = 50, dy = 50, px = 12}) {
+  function redrawIcon({ i, hidden, icon, dx = 50, dy = 50, px = 12 }) {
     const isExternal = icon.startsWith("http") || icon.startsWith("data:image");
 
     const iconText = !hidden && document.querySelector(`#marker${i} > text`);
@@ -214,7 +214,7 @@ function editMarker(markerI) {
     }
   }
 
-  function redrawPin({i, hidden, pin = "bubble", fill = "#fff", stroke = "#000"}) {
+  function redrawPin({ i, hidden, pin = "bubble", fill = "#fff", stroke = "#000" }) {
     const pinGroup = !hidden && document.querySelector(`#marker${i} > g`);
     if (pinGroup) pinGroup.innerHTML = getPin(pin, fill, stroke);
   }
@@ -237,8 +237,8 @@ function editMarker(markerI) {
 
   function confirmMarkerDeletion() {
     confirmationDialog({
-      title: "Remove marker",
-      message: "Are you sure you want to remove this marker? The action cannot be reverted",
+      title: "删除标记",
+      message: "确定要删除此标记吗？此操作无法撤销",
       confirm: "Remove",
       onConfirm: deleteMarker
     });

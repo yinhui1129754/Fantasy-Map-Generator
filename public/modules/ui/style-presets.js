@@ -15,11 +15,25 @@ const systemPresets = [
   "night",
   "monochrome"
 ];
+const systemPresetsZh = [
+  "默认",
+  "古代",
+  "阴郁",
+  "苍白",
+  "明亮",
+  "水彩",
+  "简洁",
+  "地图集",
+  "深海",
+  "赛博朋克",
+  "夜晚",
+  "单色"
+];
 const customPresetPrefix = "fmgStyle_";
 
 // add style presets to list
 {
-  const systemOptions = systemPresets.map(styleName => `<option value="${styleName}">${styleName}</option>`);
+  const systemOptions = systemPresets.map((styleName, index) => `<option value="${styleName}">${systemPresetsZh[index]}</option>`);
   const storedStyles = Object.keys(localStorage).filter(key => key.startsWith(customPresetPrefix));
   const customOptions = storedStyles.map(
     styleName => `<option value="${styleName}">${styleName.replace(customPresetPrefix, "")} [custom]</option>`
@@ -123,8 +137,8 @@ function requestStylePresetChange(preset) {
   if (isConfirmed) return changeStyle(preset);
 
   confirmationDialog({
-    title: "Change style preset",
-    message: "Are you sure you want to change the style preset? All unsaved style changes will be lost",
+    title: "更改样式预设",
+    message: "您确定要更改样式预设吗？所有未保存的样式更改都将丢失",
     confirm: "Change",
     onConfirm: () => {
       sessionStorage.setItem("styleChangeConfirmed", true);
@@ -163,7 +177,7 @@ function applyStyleWithUiRefresh(style) {
 }
 
 function addStylePreset() {
-  $("#styleSaver").dialog({title: "Style Saver", width: "26em", position: {my: "center", at: "center", of: "svg"}});
+  $("#styleSaver").dialog({ title: "Style Saver", width: "26em", position: { my: "center", at: "center", of: "svg" } });
 
   const styleName = stylePreset.value.replace(customPresetPrefix, "");
   document.getElementById("styleSaverName").value = styleName;
@@ -355,7 +369,7 @@ function addStylePreset() {
       "filter"
     ];
     const anchorsAttributes = ["opacity", "fill", "font-size", "stroke", "stroke-width", "filter"];
-    options.burgs.groups.forEach(({name}) => {
+    options.burgs.groups.forEach(({ name }) => {
       attributes[`#burgLabels > g#${name}`] = burgLabelsAttributes;
       attributes[`#burgIcons > g#${name}`] = burgIconsAttributes;
       attributes[`#anchors > g#${name}`] = anchorsAttributes;
@@ -448,8 +462,8 @@ function requestRemoveStylePreset() {
   if (isDefault) return tip("Cannot remove system preset", false, "error");
 
   confirmationDialog({
-    title: "Remove style preset",
-    message: "Are you sure you want to remove the style preset? This action cannot be undone.",
+    title: "删除样式预设",
+    message: "您确定要删除样式预设吗？此操作无法撤销。",
     confirm: "Remove",
     onConfirm: removeStylePreset
   });

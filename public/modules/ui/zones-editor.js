@@ -15,7 +15,7 @@ function editZones() {
     title: "Zones Editor",
     resizable: false,
     close: () => exitZonesManualAssignment("close"),
-    position: {my: "right top", at: "right-10 top+10", of: "svg", collision: "fit"}
+    position: { my: "right top", at: "right-10 top+10", of: "svg", collision: "fit" }
   });
 
   // add listeners
@@ -77,7 +77,7 @@ function editZones() {
     const filteredZones =
       typeToFilterBy === "all" ? pack.zones : pack.zones.filter(zone => zone.type === typeToFilterBy);
 
-    const lines = filteredZones.map(({i, name, type, cells, color, hidden}) => {
+    const lines = filteredZones.map(({ i, name, type, cells, color, hidden }) => {
       const area = getArea(d3.sum(cells.map(i => pack.cells.area[i])));
       const rural = d3.sum(cells.map(i => pack.cells.pop[i])) * populationRate;
       const urban =
@@ -89,9 +89,8 @@ function editZones() {
       const focused = defs.select("#fog #focusZone" + i).size();
 
       return /* html */ `<div class="states" data-id="${i}" data-color="${color}" data-description="${name}"
-        data-type="${type}" data-cells=${cells.length} data-area=${area} data-population=${population} style="${
-        hidden && "opacity: 0.5"
-      }">
+        data-type="${type}" data-cells=${cells.length} data-area=${area} data-population=${population} style="${hidden && "opacity: 0.5"
+        }">
         <fill-box fill="${color}"></fill-box>
         <input data-tip="Zone description. Click and type to change" style="width: 11em" class="zoneName" value="${name}" autocorrect="off" spellcheck="false">
         <input data-tip="Zone type. Click and type to change" class="zoneType" value="${type}">
@@ -102,11 +101,9 @@ function editZones() {
         <span data-tip="${populationTip}" class="icon-male hide"></span>
         <div data-tip="${populationTip}" class="zonePopulation hide pointer">${si(population)}</div>
         <span data-tip="Drag to raise or lower the zone" class="icon-resize-vertical hide"></span>
-        <span data-tip="Toggle zone focus" class="zoneFog icon-pin ${focused ? "" : "inactive"} hide ${
-        cells.length ? "" : "placeholder"
-      }"></span>
-        <span data-tip="Toggle zone visibility" class="zoneHide icon-eye hide ${
-          cells.length ? "" : " placeholder"
+        <span data-tip="Toggle zone focus" class="zoneFog icon-pin ${focused ? "" : "inactive"} hide ${cells.length ? "" : "placeholder"
+        }"></span>
+        <span data-tip="Toggle zone visibility" class="zoneHide icon-eye hide ${cells.length ? "" : " placeholder"
         }"></span>
         <span data-tip="Remove zone" class="zoneRemove icon-trash-empty hide"></span>
       </div>`;
@@ -133,7 +130,7 @@ function editZones() {
       body.dataset.type = "absolute";
       togglePercentageMode();
     }
-    $("#zonesEditor").dialog({width: fitContent()});
+    $("#zonesEditor").dialog({ width: fitContent() });
   }
 
   function zoneHighlightOn(event) {
@@ -179,7 +176,7 @@ function editZones() {
     zonesEditor.querySelectorAll(".hide").forEach(el => el.classList.add("hidden"));
     zonesFooter.style.display = "none";
     body.querySelectorAll("div > input, select, svg").forEach(e => (e.style.pointerEvents = "none"));
-    $("#zonesEditor").dialog({position: {my: "right top", at: "right-10 top+10", of: "svg", collision: "fit"}});
+    $("#zonesEditor").dialog({ position: { my: "right top", at: "right-10 top+10", of: "svg", collision: "fit" } });
 
     tip("Click to select a zone, drag to paint a zone", true);
     viewbox
@@ -196,7 +193,7 @@ function editZones() {
     const filterBy = byId("zonesFilterType").value;
     const isFiltered = filterBy && filterBy !== "all";
     const visibleZones = pack.zones.filter(zone => !zone.hidden && (!isFiltered || zone.type === filterBy));
-    const data = visibleZones.map(({i, cells, color}) => cells.map(cell => ({cell, zoneId: i, fill: color}))).flat();
+    const data = visibleZones.map(({ i, cells, color }) => cells.map(cell => ({ cell, zoneId: i, fill: color }))).flat();
     zones
       .selectAll("polygon")
       .data(data, d => `${d.zoneId}-${d.cell}`)
@@ -246,7 +243,7 @@ function editZones() {
           .exit()
           .remove();
       } else {
-        const data = selection.map(cell => ({cell, zoneId, fill: zone.color}));
+        const data = selection.map(cell => ({ cell, zoneId, fill: zone.color }));
         zones
           .selectAll("polygon")
           .data(data, d => `${d.zoneId}-${d.cell}`)
@@ -300,7 +297,7 @@ function editZones() {
     zonesFooter.style.display = "block";
     body.querySelectorAll("div > input, select, svg").forEach(e => (e.style.pointerEvents = "all"));
     if (!close)
-      $("#zonesEditor").dialog({position: {my: "right top", at: "right-10 top+10", of: "svg", collision: "fit"}});
+      $("#zonesEditor").dialog({ position: { my: "right top", at: "right-10 top+10", of: "svg", collision: "fit" } });
 
     restoreDefaultEvents();
     clearMainTip();
@@ -346,7 +343,7 @@ function editZones() {
     const filterBy = byId("zonesFilterType").value;
     const isFiltered = filterBy && filterBy !== "all";
     const visibleZones = pack.zones.filter(zone => !zone.hidden && (!isFiltered || zone.type === filterBy));
-    const data = visibleZones.map(({i, name, color}) => ["zone" + i, color, name]);
+    const data = visibleZones.map(({ i, name, color }) => ["zone" + i, color, name]);
     drawLegend("Zones", data);
   }
 
@@ -373,7 +370,7 @@ function editZones() {
     const name = "Unknown zone";
     const type = "Unknown";
     const color = "url(#hatch" + (zoneId % 42) + ")";
-    pack.zones.push({i: zoneId, name, type, color, cells: []});
+    pack.zones.push({ i: zoneId, name, type, color, cells: [] });
 
     zonesEditorAddLines();
     drawZones();
@@ -420,12 +417,11 @@ function editZones() {
     const l = n => Number(n).toLocaleString();
 
     alertMessage.innerHTML = /* html */ `Rural: <input type="number" min="0" step="1" id="ruralPop" value=${rural} style="width:6em" /> Urban:
-      <input type="number" min="0" step="1" id="urbanPop" value=${urban} style="width:6em" ${
-      burgs.length ? "" : "disabled"
-    } />
+      <input type="number" min="0" step="1" id="urbanPop" value=${urban} style="width:6em" ${burgs.length ? "" : "disabled"
+      } />
       <p>Total population: ${l(total)} ⇒ <span id="totalPop">${l(
-      total
-    )}</span> (<span id="totalPopPerc">100</span>%)</p>`;
+        total
+      )}</span> (<span id="totalPopPerc">100</span>%)</p>`;
 
     const update = function () {
       const totalNew = ruralPop.valueAsNumber + urbanPop.valueAsNumber;
@@ -450,7 +446,7 @@ function editZones() {
           $(this).dialog("close");
         }
       },
-      position: {my: "center", at: "center", of: "svg"}
+      position: { my: "center", at: "center", of: "svg" }
     });
 
     function applyPopulationChange() {
@@ -481,8 +477,8 @@ function editZones() {
 
   function zoneRemove(zone) {
     confirmationDialog({
-      title: "Remove zone",
-      message: "Are you sure you want to remove the zone? <br>This action cannot be reverted",
+      title: "删除区域组",
+      message: "确定要删除该区域组吗？<br>此操作无法撤销",
       confirm: "Remove",
       onConfirm: () => {
         pack.zones = pack.zones.filter(z => z.i !== zone.i);

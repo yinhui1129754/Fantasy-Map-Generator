@@ -15,7 +15,7 @@ export function open() {
     title: "States Editor",
     resizable: false,
     close: closeStatesEditor,
-    position: {my: "right top", at: "right-10 top+10", of: "svg", collision: "fit"}
+    position: { my: "right top", at: "right-10 top+10", of: "svg", collision: "fit" }
   });
 }
 
@@ -116,7 +116,7 @@ function addListeners() {
     else if (classList.contains("name")) editStateName(stateId);
     else if (classList.contains("coaIcon")) editEmblem("state", "stateCOA" + stateId, pack.states[stateId]);
     else if (classList.contains("icon-star-empty")) stateCapitalZoomIn(stateId);
-    else if (classList.contains("icon-dot-circled")) overviewBurgs({stateId});
+    else if (classList.contains("icon-dot-circled")) overviewBurgs({ stateId });
     else if (classList.contains("statePopulation")) changePopulation(stateId);
     else if (classList.contains("icon-pin")) toggleFog(stateId, classList);
     else if (classList.contains("icon-trash-empty")) stateRemovePrompt(stateId);
@@ -189,8 +189,7 @@ function statesEditorAddLines() {
         data-expansionism=""
       >
         <svg width="1em" height="1em" class="placeholder"></svg>
-        <input data-tip="Neutral lands name. Click to change" class="stateName name pointer italic" value="${
-          s.name
+        <input data-tip="Neutral lands name. Click to change" class="stateName name pointer italic" value="${s.name
         }" readonly />
         <svg class="coaIcon placeholder"></svg>
         <input class="stateForm placeholder" value="none" />
@@ -231,11 +230,9 @@ function statesEditorAddLines() {
     >
       <fill-box fill="${s.color}"></fill-box>
       <input data-tip="State name. Click to change" class="stateName name pointer" value="${s.name}" readonly />
-      <svg data-tip="Click to show and edit state emblem" class="coaIcon pointer" viewBox="0 0 200 200"><use href="#stateCOA${
-        s.i
+      <svg data-tip="Click to show and edit state emblem" class="coaIcon pointer" viewBox="0 0 200 200"><use href="#stateCOA${s.i
       }"></use></svg>
-      <input data-tip="State form name. Click to change" class="stateForm name pointer" value="${
-        s.formName
+      <input data-tip="State form name. Click to change" class="stateForm name pointer" value="${s.formName
       }" readonly />
       <span data-tip="State capital. Click to zoom into view" class="icon-star-empty pointer"></span>
       <input data-tip="Capital name. Click and type to rename" class="stateCapital" value="${capital}" autocorrect="off" spellcheck="false" />
@@ -249,16 +246,15 @@ function statesEditorAddLines() {
       <span data-tip="${populationTip}" class="icon-male hide"></span>
       <div data-tip="${populationTip}" class="statePopulation pointer hide" style="width: 5em">${si(population)}</div>
       <select data-tip="State type. Defines growth model. Click to change" class="cultureType ${hidden} show hide">${getTypeOptions(
-      s.type
-    )}</select>
+        s.type
+      )}</select>
       <span data-tip="State expansionism" class="icon-resize-full ${hidden} show hide"></span>
       <input data-tip="Expansionism (defines competitive size). Change to re-calculate states based on new value"
         class="statePower ${hidden} show hide" type="number" min="0" max="99" step=".1" value=${s.expansionism} />
       <span data-tip="Cells count" class="icon-check-empty ${hidden} show hide"></span>
       <div data-tip="Cells count" class="stateCells ${hidden} show hide">${s.cells}</div>
       <span data-tip="Toggle state focus" class="icon-pin ${focused ? "" : " inactive"} hide"></span>
-      <span data-tip="Lock the state to protect it from re-generation" class="icon-lock${
-        s.lock ? "" : "-open"
+      <span data-tip="Lock the state to protect it from re-generation" class="icon-lock${s.lock ? "" : "-open"
       } hide"></span>
       <span data-tip="Remove the state" class="icon-trash-empty hide"></span>
     </div>`;
@@ -286,7 +282,7 @@ function statesEditorAddLines() {
     togglePercentageMode();
   }
   applySorting(statesHeader);
-  $("#statesEditor").dialog({width: fitContent()});
+  $("#statesEditor").dialog({ width: fitContent() });
 }
 
 function getCultureOptions(culture) {
@@ -391,7 +387,7 @@ function editStateName(state) {
         $(this).dialog("close");
       }
     },
-    position: {my: "center", at: "center", of: "svg"}
+    position: { my: "center", at: "center", of: "svg" }
   });
 
   if (modules.editStateName) return;
@@ -515,7 +511,7 @@ function changePopulation(stateId) {
         $(this).dialog("close");
       }
     },
-    position: {my: "center", at: "center", of: "svg"}
+    position: { my: "center", at: "center", of: "svg" }
   });
 
   function applyPopulationChange() {
@@ -582,8 +578,8 @@ function stateRemovePrompt(state) {
   if (customization) return;
 
   confirmationDialog({
-    title: "Remove state",
-    message: "Are you sure you want to remove the state? <br>This action cannot be reverted",
+    title: "删除状态",
+    message: "您确定要删除该状态吗？<br>此操作无法撤销",
     confirm: "Remove",
     onConfirm: () => stateRemove(state)
   });
@@ -619,7 +615,7 @@ function stateRemove(stateId) {
 
   // remove provinces
   pack.states[stateId].provinces.forEach(p => {
-    pack.provinces[p] = {i: p, removed: true};
+    pack.provinces[p] = { i: p, removed: true };
     pack.cells.province.forEach((pr, i) => {
       if (pr === p) pack.cells.province[i] = 0;
     });
@@ -646,7 +642,7 @@ function stateRemove(stateId) {
     state.neighbors = state.neighbors.filter(n => n !== stateId);
   });
 
-  pack.states[stateId] = {i: stateId, removed: true};
+  pack.states[stateId] = { i: stateId, removed: true };
 
   debug.selectAll(".highlight").remove();
 
@@ -676,7 +672,7 @@ function togglePercentageMode() {
     const totalPopulation = +byId("statesFooterPopulation").dataset.population;
 
     $body.querySelectorAll(":scope > div").forEach(function (el) {
-      const {cells, burgs, area, population} = el.dataset;
+      const { cells, burgs, area, population } = el.dataset;
       el.querySelector(".stateCells").innerText = rn((+cells / totalCells) * 100) + "%";
       el.querySelector(".stateBurgs").innerText = rn((+burgs / totalBurgs) * 100) + "%";
       el.querySelector(".stateArea").innerText = rn((+area / totalArea) * 100) + "%";
@@ -700,7 +696,7 @@ function showStatesChart() {
     .sort((a, b) => b.value - a.value);
 
   const size = 150 + 200 * uiSize.value;
-  const margin = {top: 0, right: -50, bottom: 0, left: -50};
+  const margin = { top: 0, right: -50, bottom: 0, left: -50 };
   const w = size - margin.left - margin.right;
   const h = size - margin.top - margin.bottom;
   const treeLayout = d3.pack().size([w, h]).padding(3);
@@ -771,12 +767,12 @@ function showStatesChart() {
       option === "area"
         ? "Area: " + area
         : option === "rural"
-        ? "Rural population: " + si(rural)
-        : option === "urban"
-        ? "Urban population: " + si(urban)
-        : option === "burgs"
-        ? "Burgs number: " + d.data.burgs
-        : "Population: " + si(rural + urban);
+          ? "Rural population: " + si(rural)
+          : option === "urban"
+            ? "Urban population: " + si(urban)
+            : option === "burgs"
+              ? "Burgs number: " + d.data.burgs
+              : "Population: " + si(rural + urban);
 
     statesInfo.innerHTML = /* html */ `${state}. ${value}`;
     stateHighlightOn(ev);
@@ -794,12 +790,12 @@ function showStatesChart() {
       this.value === "area"
         ? d => d.area
         : this.value === "rural"
-        ? d => d.rural
-        : this.value === "urban"
-        ? d => d.urban
-        : this.value === "burgs"
-        ? d => d.burgs
-        : d => d.rural + d.urban;
+          ? d => d.rural
+          : this.value === "urban"
+            ? d => d.urban
+            : this.value === "burgs"
+              ? d => d.burgs
+              : d => d.rural + d.urban;
 
     root.sum(value);
     node.data(treeLayout(root).leaves());
@@ -823,7 +819,7 @@ function showStatesChart() {
   $("#alert").dialog({
     title: "States bubble chart",
     width: fitContent(),
-    position: {my: "left bottom", at: "left+10 bottom-10", of: "svg"},
+    position: { my: "left bottom", at: "left+10 bottom-10", of: "svg" },
     buttons: {},
     close: () => {
       alertMessage.innerHTML = "";
@@ -840,7 +836,7 @@ function openRegenerationMenu() {
   byId("statesEditor")
     .querySelectorAll(".show")
     .forEach(el => el.classList.remove("hidden"));
-  $("#statesEditor").dialog({position: {my: "right top", at: "right-10 top+10", of: "svg", collision: "fit"}});
+  $("#statesEditor").dialog({ position: { my: "right top", at: "right-10 top+10", of: "svg", collision: "fit" } });
 }
 
 function recalculateStates(must) {
@@ -877,7 +873,7 @@ function exitRegenerationMenu() {
   byId("statesEditor")
     .querySelectorAll(".show")
     .forEach(el => el.classList.add("hidden"));
-  $("#statesEditor").dialog({position: {my: "right top", at: "right-10 top+10", of: "svg", collision: "fit"}});
+  $("#statesEditor").dialog({ position: { my: "right top", at: "right-10 top+10", of: "svg", collision: "fit" } });
 }
 
 function enterStatesManualAssignent() {
@@ -893,7 +889,7 @@ function enterStatesManualAssignent() {
     .forEach(el => el.classList.add("hidden"));
   statesFooter.style.display = "none";
   $body.querySelectorAll("div > input, select, span, svg").forEach(e => (e.style.pointerEvents = "none"));
-  $("#statesEditor").dialog({position: {my: "right top", at: "right-10 top+10", of: "svg", collision: "fit"}});
+  $("#statesEditor").dialog({ position: { my: "right top", at: "right-10 top+10", of: "svg", collision: "fit" } });
 
   tip("Click on state to select, drag the circle to change state", true);
   viewbox
@@ -973,7 +969,7 @@ function moveStateBrush() {
 }
 
 function applyStatesManualAssignent() {
-  const {cells} = pack;
+  const { cells } = pack;
   const affectedStates = [];
   const affectedProvinces = [];
 
@@ -1003,7 +999,7 @@ function applyStatesManualAssignent() {
 }
 
 function adjustProvinces(affectedProvinces) {
-  const {cells, provinces, states, burgs} = pack;
+  const { cells, provinces, states, burgs } = pack;
 
   affectedProvinces.forEach(provinceId => {
     if (!provinces[provinceId]) return; // lands without province captured => do nothing
@@ -1032,7 +1028,7 @@ function adjustProvinces(affectedProvinces) {
       states[newOwnerId].provinces.push(provinceId);
     } else {
       // new owner is neutral => remove province
-      provinces[provinceId] = {i: provinceId, removed: true};
+      provinces[provinceId] = { i: provinceId, removed: true };
       provinceCells.forEach(i => {
         cells.province[i] = 0;
       });
@@ -1053,7 +1049,7 @@ function adjustProvinces(affectedProvinces) {
 
         // province center is captured by neutrals => remove province
         if (!stateId) {
-          provinces[provinceId] = {i: provinceId, removed: true};
+          provinces[provinceId] = { i: provinceId, removed: true };
           stateProvinceCells.forEach(i => {
             cells.province[i] = 0;
           });
@@ -1160,7 +1156,7 @@ function exitStatesManualAssignment(close) {
   statesFooter.style.display = "block";
   $body.querySelectorAll("div > input, select, span, svg").forEach(e => (e.style.pointerEvents = "all"));
   if (!close)
-    $("#statesEditor").dialog({position: {my: "right top", at: "right-10 top+10", of: "svg", collision: "fit"}});
+    $("#statesEditor").dialog({ position: { my: "right top", at: "right-10 top+10", of: "svg", collision: "fit" } });
 
   restoreDefaultEvents();
   clearMainTip();
@@ -1181,7 +1177,7 @@ function enterAddStateMode() {
 }
 
 function addState() {
-  const {cells, states, burgs} = pack;
+  const { cells, states, burgs } = pack;
   const point = d3.mouse(this);
   const center = findCell(point[0], point[1]);
   if (cells.h[center] < 20)
@@ -1407,7 +1403,7 @@ function openStateMergeDialog() {
       state.military.forEach(regiment => {
         const oldId = `regiment${stateId}-${regiment.i}`;
         const newIndex = rulingState.military.length;
-        rulingState.military.push({...regiment, i: newIndex});
+        rulingState.military.push({ ...regiment, i: newIndex });
         const newId = `regiment${rulingStateId}-${newIndex}`;
 
         const note = notes.find(n => n.id === oldId);
@@ -1464,8 +1460,8 @@ function downloadStatesCsv() {
   const headers = `Id,State,Full Name,Form,Color,Capital,Culture,Type,Expansionism,Cells,Burgs,Area ${unit},Total Population,Rural Population,Urban Population`;
   const lines = Array.from($body.querySelectorAll(":scope > div"));
   const data = lines.map($line => {
-    const {id, name, form, color, capital, culture, type, expansionism, cells, burgs, area, population} = $line.dataset;
-    const {fullName = "", rural, urban} = pack.states[+id];
+    const { id, name, form, color, capital, culture, type, expansionism, cells, burgs, area, population } = $line.dataset;
+    const { fullName = "", rural, urban } = pack.states[+id];
     const ruralPopulation = Math.round(rural * populationRate);
     const urbanPopulation = Math.round(urban * populationRate * urbanization);
     return [

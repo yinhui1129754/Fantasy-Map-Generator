@@ -15,7 +15,7 @@ export function open() {
   $("#heightmapSelection").dialog({
     title: "Select Heightmap",
     resizable: false,
-    position: {my: "center", at: "center", of: "svg"},
+    position: { my: "center", at: "center", of: "svg" },
     buttons: {
       Cancel: function () {
         $(this).dialog("close");
@@ -33,7 +33,7 @@ export function open() {
         lock("template");
 
         const seed = getSeed();
-        regeneratePrompt({seed, graph});
+        regeneratePrompt({ seed, graph });
 
         $(this).dialog("close");
       }
@@ -291,7 +291,7 @@ function redrawAll() {
   graph = getGraph(graph);
   const articles = byId("heightmapSelection").querySelectorAll(`article`);
   for (const article of articles) {
-    const {id, seed} = article.dataset;
+    const { id, seed } = article.dataset;
     Math.random = aleaPRNG(seed);
 
     const isTemplate = id in heightmapTemplates;
@@ -305,15 +305,15 @@ function confirmHeightmapEdit() {
 
   confirmationDialog({
     title: this.dataset.tip,
-    message: "Opening the tool will erase the current map. Are you sure you want to proceed?",
+    message: "打开工具将擦除当前地图。您确定要继续吗？",
     confirm: "Continue",
-    onConfirm: () => editHeightmap({mode: "erase", tool})
+    onConfirm: () => editHeightmap({ mode: "erase", tool })
   });
 }
 
 function getHeightmapPreview(heights) {
   const scheme = getColorScheme(byId("heightmapSelectionColorScheme").value);
   const renderOcean = byId("heightmapSelectionRenderOcean").checked;
-  const dataUrl = drawHeights({heights, width: graph.cellsX, height: graph.cellsY, scheme, renderOcean});
+  const dataUrl = drawHeights({ heights, width: graph.cellsX, height: graph.cellsY, scheme, renderOcean });
   return dataUrl;
 }
